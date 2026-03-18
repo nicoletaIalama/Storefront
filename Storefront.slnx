@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Storefront.API/Storefront.API.csproj" />
+  <Project Path="Storefront.Application/Storefront.Application.csproj" />
+  <Project Path="Storefront.Domain/Storefront.Domain.csproj" />
+  <Project Path="Storefront.Infrastructure/Storefront.Infrastructure.csproj" />
+</Solution>
