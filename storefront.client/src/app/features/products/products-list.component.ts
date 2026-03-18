@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { AsyncPipe, CurrencyPipe, NgIf, NgFor } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 import { ProductApiService } from '../../core/services/product-api.service';
 import { Product } from '../../core/models/product';
@@ -8,12 +9,18 @@ import { catchError, finalize, of, tap } from 'rxjs';
 @Component({
   selector: 'app-products-list',
   standalone: true,
-  imports: [NgIf, NgFor, AsyncPipe, CurrencyPipe],
+  imports: [NgIf, NgFor, AsyncPipe, CurrencyPipe, RouterLink],
   template: `
     <section class="products">
       <header class="products__header">
         <h1>Products</h1>
         <p class="products__subtitle">Browse the available items in the storefront.</p>
+
+        <div class="products__actions">
+          <a class="products__create-order" routerLink="/orders/create">
+            Create order
+          </a>
+        </div>
       </header>
 
       <div class="products__state" *ngIf="loading()">

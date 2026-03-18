@@ -21,5 +21,23 @@ public sealed class ProductService(IProductRepository repository) : IProductServ
             })
             .ToArray();
     }
+
+    public async Task<ProductDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var product = await _repository.GetByIdAsync(id, cancellationToken);
+        if (product is null)
+        {
+            return null;
+        }
+
+        return new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            Description = product.Description,
+            IsActive = product.IsActive
+        };
+    }
 }
 
