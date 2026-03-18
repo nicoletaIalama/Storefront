@@ -1,0 +1,45 @@
+# ----------------------------
+# .NET / Visual Studio
+# ----------------------------
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+TestResults/
+results/
+
+# Build output
+bin/
+obj/
+
+# Rider / VS Code / other IDEs
+.idea/
+.vscode/
+*.code-workspace
+*.sln.iml
+
+# .NET secrets
+secrets.json
+*.pfx
+
+# ----------------------------
+# Node / Angular
+# ----------------------------
+node_modules/
+dist/
+out/
+coverage/
+
+# Angular build cache
+.angular/
+
+# Vite (if used)
+.vite/
+
+# ----------------------------
+# OS / misc
+# ----------------------------
+Thumbs.db
+Desktop.ini
+
