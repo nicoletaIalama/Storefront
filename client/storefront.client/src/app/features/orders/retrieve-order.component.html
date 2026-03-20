@@ -1,0 +1,54 @@
+<section class="retrieve-order">
+  <header class="retrieve-order__header">
+    <h1>Retrieve order</h1>
+    <p class="retrieve-order__subtitle">Look up an existing order by ID.</p>
+  </header>
+
+  <form class="retrieve-order__form" (submit)="onRetrieveOrder($event)">
+    <div class="retrieve-order__field">
+      <label for="orderId">Order ID</label>
+      <input
+        id="orderId"
+        type="text"
+        autocomplete="off"
+        [value]="orderId()"
+        (input)="onOrderIdInput($event)"
+        placeholder="e.g. 62f6c2a4-57d0-4d96-bfe8-4fd177c487d6"
+      />
+    </div>
+
+    <div class="retrieve-order__actions">
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Retrieving...' : 'Retrieve order' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="retrieve-order__state retrieve-order__state--error" *ngIf="error()">
+    <p>{{ error() }}</p>
+  </div>
+
+  <section class="retrieve-order__summary" *ngIf="retrievedOrder() as order">
+    <header class="retrieve-order__summary-header">
+      <h2>Order {{ order.orderId }}</h2>
+      <p class="retrieve-order__summary-status">
+        Status: <strong>{{ order.status }}</strong>
+      </p>
+      <p class="retrieve-order__summary-total">Total: {{ order.total | currency }}</p>
+    </header>
+
+    <ul class="retrieve-order__line-items">
+      <li class="retrieve-order__line-item" *ngFor="let line of order.lineItems">
+        <span>Product ID: {{ line.productId }}</span>
+        <span>Qty: {{ line.quantity }}</span>
+      </li>
+    </ul>
+
+    <div class="retrieve-order__payment" *ngIf="order.payment as payment">
+      <h3>Payment</h3>
+      <p>Provider: {{ payment.provider }}</p>
+      <p>Succeeded: {{ payment.succeeded ? 'Yes' : 'No' }}</p>
+      <p *ngIf="payment.failureReason">Failure reason: {{ payment.failureReason }}</p>
+    </div>
+  </section>
+</section>

@@ -12,6 +12,7 @@ results/
 # Build output
 bin/
 obj/
+artifacts/
 
 # Rider / VS Code / other IDEs
 .idea/

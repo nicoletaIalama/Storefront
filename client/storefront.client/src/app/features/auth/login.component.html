@@ -1,0 +1,41 @@
+<section class="login">
+  <header class="login__header">
+    <h1>Login</h1>
+    <p class="login__subtitle">Use admin/admin123 or user/user123.</p>
+  </header>
+
+  <form class="login__form" (submit)="onSubmit($event)">
+    <div class="login__field">
+      <label for="userName">Username</label>
+      <input
+        id="userName"
+        type="text"
+        autocomplete="username"
+        [value]="userName()"
+        (input)="onUserNameInput($event)"
+      />
+    </div>
+
+    <div class="login__field">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        [value]="password()"
+        (input)="onPasswordInput($event)"
+      />
+    </div>
+
+    <div class="login__actions">
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Signing in...' : 'Login' }}
+      </button>
+      <a routerLink="/products">Back to products</a>
+    </div>
+  </form>
+
+  <div class="login__error" *ngIf="error()">
+    {{ error() }}
+  </div>
+</section>

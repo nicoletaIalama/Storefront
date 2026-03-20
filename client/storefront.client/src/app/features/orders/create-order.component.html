@@ -1,0 +1,118 @@
+<section class="order">
+  <header class="order__header">
+    <h1>Create order</h1>
+    <p class="order__subtitle">Pick products + quantities, then place the order.</p>
+    <a class="order__retrieve-link" routerLink="/orders/retrieve">Retrieve existing order</a>
+  </header>
+
+  <form class="order__form" (submit)="onCreateOrder($event)">
+    <div class="order__products">
+      <div class="order__state" *ngIf="productsLoading()">
+        <p>Loading products...</p>
+      </div>
+
+      <div class="order__state order__state--error" *ngIf="productsError()">
+        <p>{{ productsError() }}</p>
+      </div>
+
+      <ng-container *ngIf="products$ | async as products">
+        <div class="order__empty" *ngIf="products.length === 0">
+          No products available.
+        </div>
+
+        <div class="order__product-grid" *ngIf="products.length > 0">
+          <div class="order__product" *ngFor="let product of products">
+            <div class="order__product-main">
+              <div class="order__product-info">
+                <h2 class="order__product-name">{{ product.name }}</h2>
+                <p class="order__product-price">{{ product.price | currency }}</p>
+              </div>
+
+              <div class="order__product-qty">
+                <label>
+                  Qty
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    [value]="quantities[product.id] ?? 0"
+                    [disabled]="product.isActive === false"
+                    (input)="onQuantityInput(product.id, $event)"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <p class="order__product-description" *ngIf="product.description">
+              {{ product.description }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="order__actions">
+      <button type="submit" [disabled]="creatingOrder()">
+        {{ creatingOrder() ? 'Creating...' : 'Create order' }}
+      </button>
+    </div>
+
+    <div class="order__state order__state--error" *ngIf="createOrderError()">
+      <p>{{ createOrderError() }}</p>
+    </div>
+  </form>
+
+  <section class="order__summary" *ngIf="createdOrder() as order">
+    <header class="order__summary-header">
+      <h2>Order {{ order.orderId }}</h2>
+      <p class="order__summary-status">
+        Status: <strong>{{ order.status }}</strong>
+      </p>
+      <p class="order__summary-total">Total: {{ order.total | currency }}</p>
+    </header>
+
+    <ul class="order__line-items">
+      <li class="order__line-item" *ngFor="let line of order.lineItems">
+        <span>{{ getProductName(line.productId) }}</span>
+        <span>Qty: {{ line.quantity }}</span>
+      </li>
+    </ul>
+
+    <div class="order__payment" *ngIf="order.status === 'PendingPayment'">
+      <h3>Mock payment</h3>
+
+      <div class="order__field">
+        <label for="failureReason">Failure reason (used when result is failure)</label>
+        <input
+          id="failureReason"
+          type="text"
+          autocomplete="off"
+          [value]="mockFailureReason()"
+          (input)="onMockFailureReasonInput($event)"
+        />
+      </div>
+
+      <div class="order__payment-actions">
+        <button
+          type="button"
+          [disabled]="processingPayment()"
+          (click)="submitMockPayment('success')"
+        >
+          {{ processingPayment() ? 'Processing...' : 'Pay success' }}
+        </button>
+        <button
+          type="button"
+          class="order__button--secondary"
+          [disabled]="processingPayment()"
+          (click)="submitMockPayment('failure')"
+        >
+          Pay failure
+        </button>
+      </div>
+
+      <div class="order__state order__state--error" *ngIf="paymentError()">
+        <p>{{ paymentError() }}</p>
+      </div>
+    </div>
+  </section>
+</section>

@@ -1,6 +1,8 @@
 <Solution>
-  <Project Path="Storefront.API/Storefront.API.csproj" />
-  <Project Path="Storefront.Application/Storefront.Application.csproj" />
-  <Project Path="Storefront.Domain/Storefront.Domain.csproj" />
-  <Project Path="Storefront.Infrastructure/Storefront.Infrastructure.csproj" />
+  <Project Path="src/Storefront.Api/Storefront.Api.csproj" />
+  <Project Path="src/Storefront.Application/Storefront.Application.csproj" />
+  <Project Path="src/Storefront.Domain/Storefront.Domain.csproj" />
+  <Project Path="src/Storefront.Infrastructure/Storefront.Infrastructure.csproj" />
+  <Project Path="tests/Storefront.Application.Tests/Storefront.Application.Tests.csproj" />
+  <Project Path="tests/Storefront.Api.IntegrationTests/Storefront.Api.IntegrationTests.csproj" />
 </Solution>

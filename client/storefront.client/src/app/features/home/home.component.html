@@ -1,0 +1,42 @@
+<header class="home__topbar">
+  <div class="home__topbar-left">
+    <strong class="home__brand">Storefront</strong>
+  </div>
+
+  <div class="home__topbar-right">
+    <ng-container *ngIf="auth.isAuthenticated(); else loggedOut">
+      <span class="home__role">
+        Role: <strong>{{ auth.getRole() }}</strong>
+      </span>
+      <button type="button" class="home__link-button" (click)="logout()">
+        Logout
+      </button>
+    </ng-container>
+
+    <ng-template #loggedOut>
+      <a class="home__link" routerLink="/login">Login</a>
+    </ng-template>
+  </div>
+</header>
+
+<section class="home">
+  <h1 class="home__title">Navigate</h1>
+  <p class="home__subtitle">Choose what you want to do next.</p>
+
+  <div class="home__cards">
+    <a class="home__card" routerLink="/products">
+      <h2>Products</h2>
+      <p>Browse the available items.</p>
+    </a>
+
+    <a class="home__card" routerLink="/orders/create">
+      <h2>Create order</h2>
+      <p>Pick products + quantities and place an order.</p>
+    </a>
+
+    <a class="home__card" routerLink="/orders/retrieve">
+      <h2>Retrieve order</h2>
+      <p>Look up an order by order ID.</p>
+    </a>
+  </div>
+</section>

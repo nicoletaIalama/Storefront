@@ -1,0 +1,81 @@
+<section class="products">
+  <header class="products__header">
+    <h1>Products</h1>
+    <p class="products__subtitle">Browse the available items in the storefront.</p>
+
+    <div class="products__actions">
+      <a class="products__create-order" routerLink="/login" *ngIf="!isAuthenticated()">
+        Login
+      </a>
+      <button class="products__create-order" type="button" (click)="logout()" *ngIf="isAuthenticated()">
+        Logout ({{ roleLabel() }})
+      </button>
+      <a class="products__create-order" routerLink="/orders/create">
+        Create order
+      </a>
+    </div>
+  </header>
+
+  <div class="products__state" *ngIf="loading()">
+    <p>Loading products...</p>
+  </div>
+
+  <div class="products__state products__state--error" *ngIf="error()">
+    <p>{{ error() }}</p>
+  </div>
+
+  <form class="products__admin-form" *ngIf="isAdmin()" (submit)="createProduct($event)">
+    <h2 class="products__admin-title">Admin: Create product</h2>
+    <div class="products__admin-grid">
+      <input
+        type="text"
+        placeholder="Name"
+        [value]="newProductName()"
+        (input)="onNewProductNameInput($event)"
+      />
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder="Price"
+        [value]="newProductPrice()"
+        (input)="onNewProductPriceInput($event)"
+      />
+      <input
+        type="text"
+        placeholder="Description"
+        [value]="newProductDescription()"
+        (input)="onNewProductDescriptionInput($event)"
+      />
+      <button type="submit" [disabled]="savingProduct()">
+        {{ savingProduct() ? 'Saving...' : 'Add product' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="products__state" *ngIf="products().length === 0 && !loading()">
+    <p>No products available.</p>
+  </div>
+
+  <ul class="products__list" *ngIf="products().length > 0">
+    <li class="products__item" *ngFor="let product of products()">
+      <div class="products__item-main">
+        <h2 class="products__item-name">{{ product.name }}</h2>
+        <p class="products__item-price">{{ product.price | currency }}</p>
+      </div>
+      <p class="products__item-description" *ngIf="product.description">
+        {{ product.description }}
+      </p>
+      <div class="products__item-actions" *ngIf="isAdmin()">
+        <button
+          class="products__delete"
+          type="button"
+          [disabled]="deletingProductId() === product.id"
+          (click)="deleteProduct(product.id)"
+        >
+          {{ deletingProductId() === product.id ? 'Deleting...' : 'Delete' }}
+        </button>
+      </div>
+    </li>
+  </ul>
+</section>
